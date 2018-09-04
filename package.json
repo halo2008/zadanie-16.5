@@ -35,11 +35,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/halo2008/zadanie-16.4.git"
+    "url": "git+https://github.com/halo2008/zadanie-16.6.git"
   },
   "bugs": {
-    "url": "https://github.com/halo2008/zadanie-16.4/issues"
+    "url": "https://github.com/halo2008/zadanie-16.6/issues"
   },
-  "homepage": "https://github.com/halo2008/zadanie-16.4#readme",
+  "homepage": "https://github.com/halo2008/zadanie-16.6#readme",
   "description": ""
 }

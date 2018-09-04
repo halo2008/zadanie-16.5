@@ -1,38 +1,39 @@
-var prefix = "https://cors-anywhere.herokuapp.com/";
-var tweetLink = "https://twitter.com/intent/tweet?text=";
-var quoteUrl = "https://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]=1";
+var url = 'https://restcountries.eu/rest/v2/name/';
+var capital = $('#capital');
 
-function getQuote() {
-    $.getJSON(prefix + quoteUrl, createTweet);
+$('#search').click(searchCountries);
+
+function searchCountries() {
+    clear();
+    var countryName = $('#country-name').val();
+    $('#tab').css('dispaly', 'block');
+    if(!countryName.length) countryName = 'Poland';
+    $.ajax({
+        url: url + countryName,
+        method: 'GET',
+        success: showCountriesList
+    });
 }
 
-function createTweet(input) {    
-	var data = input[0];
-    var quoteText = $(data.content).text().trim();
-    var quoteAuthor = data.title;  
-    var tweetText = "Quote of the day - " + quoteText + " Author: " + quoteAuthor;
+function clear() {
+    var countriesList = $('.list');
+    countriesList.empty(); 
+}
+
+function showCountriesList(resp) {
     
-    if (tweetText.length > 140) {
-		getQuote();
-    }
-	
-	else {
-		var tweet = tweetLink + encodeURIComponent(tweetText);
-		$('.quote').text(quoteText);
-		$('.author').text("Author: " + quoteAuthor);
-		$('.tweet').attr('href', tweet);
-	}
-  
-    if (!quoteAuthor.length) {
-        quoteAuthor = "Unknown author";
-    }
+    resp.forEach(function(item) {
+        $('#co-name').text(item.name);
+
+
+        $('<td>').text(item.capital).appendTo($('#capital')).attr('class', 'list');
+        $('<td>').text(item.population).appendTo($('#population')).attr('class', 'list');
+        $('<td>').text(item.area).appendTo($('#land')).attr('class', 'list');
+        $('<td>').text(item.borders).appendTo($('#border')).attr('class', 'list');
+        $('<td>').text(item.nativeName).appendTo($('#native')).attr('class', 'list');
+        $('<td>').text(item.region).appendTo($('#region')).attr('class', 'list');
+        $('<td>').text(item.currencies.name).appendTo($('#currency')).attr('class', 'list');
+        $('#flag').attr('src', item.flag).css('display', 'block');
+    });
+    
 }
-
-$(document).ready(function() {
-    getQuote();
-    $('.trigger').click(function() {
-        getQuote();
-    })
-});
-
-$.ajaxSetup({ cache: false });
