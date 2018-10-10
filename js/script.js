@@ -1,10 +1,7 @@
 var url = 'https://restcountries.eu/rest/v2/name/';
-var capital = $('#capital');
-
 $('#search').click(searchCountries);
 
-function searchCountries() {
-    clear();
+function searchCountries() {    
     var countryName = $('#country-name').val();
     $('#tab').css('dispaly', 'block');
     if(!countryName.length) countryName = 'Poland';
@@ -15,25 +12,26 @@ function searchCountries() {
     });
 }
 
-function clear() {
-    var countriesList = $('.list');
-    countriesList.empty(); 
+$('#clear').click(function() {
+    clearTable();
+});
+
+function clearTable() {
+    $('.list').remove();    
 }
 
-function showCountriesList(resp) {
-    
-    resp.forEach(function(item) {
-        $('#co-name').text(item.name);
-
-
-        $('<td>').text(item.capital).appendTo($('#capital')).attr('class', 'list');
-        $('<td>').text(item.population).appendTo($('#population')).attr('class', 'list');
-        $('<td>').text(item.area).appendTo($('#land')).attr('class', 'list');
-        $('<td>').text(item.borders).appendTo($('#border')).attr('class', 'list');
-        $('<td>').text(item.nativeName).appendTo($('#native')).attr('class', 'list');
-        $('<td>').text(item.region).appendTo($('#region')).attr('class', 'list');
-        $('<td>').text(item.currencies.name).appendTo($('#currency')).attr('class', 'list');
-        $('#flag').attr('src', item.flag).css('display', 'block');
-    });
-    
+function showCountriesList(resp) {   
+    resp.forEach(function(item) {      
+        var $tr = $('<tr/>').attr('class', 'list');
+        $('#body').append($tr);
+        $tr.append($('<td>').append($('<img>').attr('src', item.flag)));
+        $tr.append($('<td>').text(item.name));
+        $tr.append($('<td>').text(item.capital));
+        $tr.append($('<td>').text(item.population));
+        $tr.append($('<td>').text(item.area));
+        $tr.append($('<td>').text(item.borders));
+        $tr.append($('<td>').text(item.nativeName));
+        $tr.append($('<td>').text(item.region));
+        $tr.append($('<td>').text(item.currencies.name));        
+    });    
 }
